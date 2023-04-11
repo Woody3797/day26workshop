@@ -28,7 +28,7 @@ public class BoardGamesController {
     }
     
     @GetMapping(path = "/games")
-    public ResponseEntity<String> getAllBoardGames(@RequestParam Integer limit, @RequestParam Integer offset) {
+    public ResponseEntity<String> getAllBoardGames(@RequestParam(defaultValue = "25") Integer limit, @RequestParam(defaultValue = "0") Integer offset) {
         List<Game> listGames = boardGamesRespository.getAllGames(limit, offset);
         Games games = new Games();
         games.setGameList(listGames);

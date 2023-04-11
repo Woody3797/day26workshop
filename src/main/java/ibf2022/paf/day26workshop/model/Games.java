@@ -59,9 +59,12 @@ public class Games {
 
     public JsonObject toJson() {
         return Json.createObjectBuilder()
-        
-        .build();
-        
+        .add("limit", getLimit())
+        .add("offset", getOffset())
+        .add("total", getTotal())
+        .add("timestamp", getTimestamp().toString())
+        .add("gameList", getGameList().toString())
+        .build(); 
     }
     
 }

@@ -85,7 +85,7 @@ public class Game {
         game.setYear(d.getInteger("year"));
         game.setRanking(d.getInteger("ranking"));
         game.setUsers_rated(d.getInteger("users_rated"));
-        game.setUrl(d.getString("gid"));
+        game.setUrl(d.getString("url"));
         game.setImage(d.getString("image"));
 
         return game;

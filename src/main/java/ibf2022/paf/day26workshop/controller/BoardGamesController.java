@@ -45,7 +45,7 @@ public class BoardGamesController {
 
 
     @GetMapping(path = "/games/rank")
-    public ResponseEntity<String> getSortedBoardGames(@RequestParam Integer limit, @RequestParam Integer offset) {
+    public ResponseEntity<String> getSortedBoardGames(@RequestParam(defaultValue = "25") Integer limit, @RequestParam(defaultValue = "0") Integer offset) {
         List<Game> listGames = boardGamesRespository.getSortedBoardGames(limit, offset);
         Games games = new Games();
         games.setGameList(listGames);

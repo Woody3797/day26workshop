@@ -37,10 +37,14 @@ public class BoardGamesRespository {
         return template.find(query, Document.class, "games").stream().map(d -> Game.create(d)).toList();
     }
 
-    public Game getBoardGameById(Integer gameId) {
+    public Game getBoardGameById(String gameId) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("gid").is(gameId));
-        
-        return template.findOne(query, Game.class, "games");
+        try {
+            query.addCriteria(Criteria.where("gid").is(Integer.parseInt(gameId)));
+            return template.findOne(query, Game.class, "games");
+        } catch (NumberFormatException e) {
+            query.addCriteria(Criteria.where("_id").is(gameId));
+            return template.findOne(query, Game.class, "games");
+        }
     }
 }

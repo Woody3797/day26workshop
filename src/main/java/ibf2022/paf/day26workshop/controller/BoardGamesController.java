@@ -16,7 +16,6 @@ import ibf2022.paf.day26workshop.model.Games;
 import ibf2022.paf.day26workshop.repository.BoardGamesRespository;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
-import jakarta.json.JsonObjectBuilder;
 
 @RestController
 public class BoardGamesController {
@@ -37,9 +36,9 @@ public class BoardGamesController {
         games.setTotal(listGames.size());
         games.setTimestamp(LocalDate.now());
 
-        JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
-        objectBuilder.add("boardgames", games.toJson());
-        JsonObject result = objectBuilder.build();
+        JsonObject result = Json.createObjectBuilder()
+        .add("boardgames", games.toJson())
+        .build();
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(result.toString());
     }
 
@@ -53,20 +52,26 @@ public class BoardGamesController {
         games.setOffset(offset);
         games.setTotal(limit);
         games.setTimestamp(LocalDate.now());
-        JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
-        objectBuilder.add("boardgames", games.toJson());
-        JsonObject result = objectBuilder.build();
+        JsonObject result = Json.createObjectBuilder()
+        .add("boardgames", games.toJson())
+        .build();
         
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(result.toString());
     }
 
 
     @GetMapping(path = "/games/{gameId}")
-    public ResponseEntity<String> getBoardGameById(@PathVariable Integer gameId) {
+    public ResponseEntity<String> getBoardGameById(@PathVariable String gameId) {
         Game game = boardGamesRespository.getBoardGameById(gameId);
-        JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
-        objectBuilder.add("game", game.toJson());
-        JsonObject result = objectBuilder.build();
+        if (game == null) {
+            return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body("{\"error\": \"game " + gameId + " not found\"}");
+        }
+        JsonObject result = Json.createObjectBuilder()
+        .add("game", game.toJson())
+        .build();
 
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(result.toString());
     }

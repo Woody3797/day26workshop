@@ -63,12 +63,9 @@ public class BoardGamesController {
 
     @GetMapping(path = "/games/{gameId}")
     public ResponseEntity<String> getBoardGameById(@PathVariable Integer gameId) {
-
         Game game = boardGamesRespository.getBoardGameById(gameId);
-
         JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
         objectBuilder.add("game", game.toJson());
-
         JsonObject result = objectBuilder.build();
 
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(result.toString());

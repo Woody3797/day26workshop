@@ -21,17 +21,19 @@ public class BoardGamesRespository {
     MongoTemplate template;
 
     public List<Game> getAllGames(Integer limit, Integer offset) {
-        Query query = new Query();
-        Pageable pageable = PageRequest.of(offset, limit);
-        query.with(pageable);
+        // Query query = new Query();
+        // Pageable pageable = PageRequest.of(offset, limit);
+        // query.with(pageable);
+        Query query = Query.query(Criteria.where("gid").exists(true)).limit(limit).skip(offset);
 
         return template.find(query, Document.class, "games").stream().map(d -> Game.create(d)).toList();
     }
 
     public List<Game> getSortedBoardGames(Integer limit, Integer offset) {
-        Query query = new Query();
-        Pageable pageable = PageRequest.of(offset, limit);
-        query.with(pageable);
+        // Query query = new Query();
+        // Pageable pageable = PageRequest.of(offset, limit);
+        // query.with(pageable);
+        Query query = Query.query(Criteria.where("gid").exists(true)).limit(limit).skip(offset);
         query.with(Sort.by(Sort.Direction.ASC, "ranking"));
 
         return template.find(query, Document.class, "games").stream().map(d -> Game.create(d)).toList();

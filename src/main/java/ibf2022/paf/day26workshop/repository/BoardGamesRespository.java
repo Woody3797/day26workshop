@@ -1,5 +1,6 @@
 package ibf2022.paf.day26workshop.repository;
 
+import java.io.StringReader;
 import java.util.List;
 
 import org.bson.Document;
@@ -10,7 +11,12 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+
 import ibf2022.paf.day26workshop.model.Game;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 
 @Repository
 public class BoardGamesRespository {
@@ -47,4 +53,19 @@ public class BoardGamesRespository {
             return template.findOne(query, Game.class, "games");
         }
     }
+
+    public String getGameToJson(String gameId) {
+        try {
+            Query query = new Query().addCriteria(Criteria.where("gid").is(Integer.parseInt(gameId)));
+            Document doc = template.findOne(query, Document.class, "games");
+            String result = doc.toJson();
+            return result;
+        } catch (NumberFormatException e) {
+            Query query = new Query().addCriteria(Criteria.where("_id").is(gameId));
+            Document doc = template.findOne(query, Document.class, "games");
+            String result = doc.toJson();
+            return result;
+        }
+    }
+    
 }

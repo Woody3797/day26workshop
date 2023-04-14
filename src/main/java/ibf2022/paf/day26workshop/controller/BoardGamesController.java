@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import ibf2022.paf.day26workshop.model.Game;
@@ -42,7 +43,6 @@ public class BoardGamesController {
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(result.toString());
     }
 
-
     @GetMapping(path = "/games/rank")
     public ResponseEntity<String> getSortedBoardGames(@RequestParam(defaultValue = "25") Integer limit, @RequestParam(defaultValue = "0") Integer offset) {
         List<Game> listGames = boardGamesRespository.getSortedBoardGames(limit, offset);
@@ -59,7 +59,6 @@ public class BoardGamesController {
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(result.toString());
     }
 
-
     @GetMapping(path = "/games/{gameId}")
     public ResponseEntity<String> getBoardGameById(@PathVariable String gameId) {
         Game game = boardGamesRespository.getBoardGameById(gameId);
@@ -75,4 +74,12 @@ public class BoardGamesController {
 
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(result.toString());
     }
+
+    @GetMapping(path = "/game/{gameId}")
+    @ResponseBody
+    public String getGameToJson(@PathVariable String gameId) {
+        String result = boardGamesRespository.getGameToJson(gameId);
+        return result;
+    }
+
 }

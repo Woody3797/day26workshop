@@ -1,6 +1,5 @@
 package ibf2022.paf.day26workshop.repository;
 
-import java.io.StringReader;
 import java.util.List;
 
 import org.bson.Document;
@@ -11,12 +10,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
-
 import ibf2022.paf.day26workshop.model.Game;
-import jakarta.json.Json;
-import jakarta.json.JsonObject;
 
 @Repository
 public class BoardGamesRespository {

@@ -52,13 +52,11 @@ public class BoardGamesRespository {
         try {
             Query query = new Query().addCriteria(Criteria.where("gid").is(Integer.parseInt(gameId)));
             Document doc = template.findOne(query, Document.class, "games");
-            String result = doc.toJson();
-            return result;
+            return doc == null ? null : doc.toJson();
         } catch (NumberFormatException e) {
             Query query = new Query().addCriteria(Criteria.where("_id").is(gameId));
             Document doc = template.findOne(query, Document.class, "games");
-            String result = doc.toJson();
-            return result;
+            return doc == null ? null : doc.toJson();
         }
     }
     

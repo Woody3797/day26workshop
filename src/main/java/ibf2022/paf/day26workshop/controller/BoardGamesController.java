@@ -77,14 +77,15 @@ public class BoardGamesController {
 
     @GetMapping(path = "/game/{gameId}")
     @ResponseBody
-    public String getGameToJson(@PathVariable String gameId) {
+    public ResponseEntity<String> getGameToJson(@PathVariable String gameId) {
         String game = boardGamesRespository.getGameToJson(gameId);
         if (game == null) {
-            return Json.createObjectBuilder()
-            .add("error", "game " + gameId + " not found")
-            .build().toString();
+            JsonObject jo = Json.createObjectBuilder()
+            .add("error", "game " + gameId + " not found").build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).contentType(MediaType.APPLICATION_JSON).body(jo.toString());
         }
-        return game;
+        
+        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(game);
     }
 
 }

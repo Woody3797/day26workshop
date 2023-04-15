@@ -76,7 +76,6 @@ public class BoardGamesController {
     }
 
     @GetMapping(path = "/game/{gameId}")
-    @ResponseBody
     public ResponseEntity<String> getGameToJson(@PathVariable String gameId) {
         String game = boardGamesRespository.getGameToJson(gameId);
         if (game == null) {
@@ -84,7 +83,7 @@ public class BoardGamesController {
             .add("error", "game " + gameId + " not found").build();
             return ResponseEntity.status(HttpStatus.NOT_FOUND).contentType(MediaType.APPLICATION_JSON).body(jo.toString());
         }
-        
+
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(game);
     }
 
